@@ -5,7 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-class CalculatorTest {
+class CalculatorJUnit {
 
     private Calculator cal;
 
@@ -23,7 +23,7 @@ class CalculatorTest {
 
     @Test
     public void subtract() {
-        assertEquals(3, cal.subtract(6, 3));
+        assertEquals(4, cal.subtract(6, 3));
         System.out.println("subtract");
     }
 
