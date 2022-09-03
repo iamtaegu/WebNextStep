@@ -14,11 +14,16 @@ import java.util.Map;
 public class HttpRequest {
     public static final Logger log = LoggerFactory.getLogger(HttpRequest.class);
 
-    private String method;
+    private HttpMethod method;
     private String path;
     private Map<String, String> headers = new HashMap<String, String>();
     private Map<String, String> params = new HashMap<String, String>();
 
+    /**
+     * InputStream에 필요한 데이터를 객체의 필드에 저장하는 역할만 처리
+     *
+     * @param InputStream
+     * */
     public HttpRequest(InputStream in) {
         try {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
@@ -38,7 +43,7 @@ public class HttpRequest {
                 line = br.readLine();
             }
 
-            if ("POST".equals(method)) {
+            if (method.isPost()) {
                 String body = IOUtils.readData(br
                         , Integer.parseInt(headers.get("Content-Length")));
                 params = HttpRequestUtils.parseQueryString(body);
@@ -50,31 +55,18 @@ public class HttpRequest {
     }
 
     private void processRequestLine(String requestLine) {
-        log.debug("request line : {}", requestLine);
-        String[] tokens = requestLine.split(" ");
-        method = tokens[0];
-
-        if ("POST".equals(method)) {
-            path = tokens[1];
-            return;
-        }
-
-        int index = tokens[1].indexOf("?");
-        if (index == -1) {
-            path = tokens[1];
-        } else {
-            path = tokens[1].substring(0, index);
-            params = HttpRequestUtils.parseQueryString(
-                    tokens[1].substring(index+1));
-        }
-    }
-
-    public String getMethod() {
-        return method;
+        RequestLine rl = new RequestLine(requestLine);
+        method = rl.getMethod();
+        path = rl.getPath();
+        params = rl.getParams();
     }
 
     public String getPath() {
         return path;
+    }
+
+    public HttpMethod getMethod() {
+        return method;
     }
 
     public String getHeaders(String name) {
@@ -83,5 +75,20 @@ public class HttpRequest {
 
     public String getParams(String name) {
         return params.get(name);
+    }
+
+    public String getParameter(String name) {
+        return params.get(name);
+    }
+
+    public boolean isLogin(String line) {
+        String[] headerTokens = line.split(":");
+        Map<String, String> cookies =
+                HttpRequestUtils.parseCookies(headerTokens[1].trim());
+        String value = cookies.get("logined");
+        if (value == null) {
+            return false;
+        }
+        return Boolean.parseBoolean(value);
     }
 }
