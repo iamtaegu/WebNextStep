@@ -1,2 +1,2 @@
 "# WebNextStep" 
-"юз╧ы ю╔ га╥н╠в╥║╧ж Next Step" 
+"Л·░К╟■ Л⌡╧ М■└К║°Й╥╦К·≤К╟█ Next Step" 
