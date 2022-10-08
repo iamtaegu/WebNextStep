@@ -21,7 +21,7 @@ public class UserDaoTest {
         DatabasePopulatorUtils.execute(populator, ConnectionManager.getDataSource());
     }
 
-    //@Test
+    @Test
     public void crud() throws Exception {
         User expected = new User("userId", "password", "name", "javajigi@email.com");
         UserDao userDao = new UserDao();
@@ -35,7 +35,7 @@ public class UserDaoTest {
         assertEquals(expected, actual);
     }
 
-    //@Test
+    @Test
     public void findAll() throws Exception {
         UserDao userDao = new UserDao();
         List<User> users = userDao.findAll();

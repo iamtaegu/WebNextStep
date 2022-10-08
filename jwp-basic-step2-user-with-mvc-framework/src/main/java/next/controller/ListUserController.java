@@ -5,6 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import core.db.DataBase;
 import core.mvc.Controller;
+import next.dao.UserDao;
+
+import java.sql.SQLException;
 
 public class ListUserController implements Controller {
     @Override
@@ -13,7 +16,13 @@ public class ListUserController implements Controller {
             return "redirect:/users/loginForm";
         }
 
-        req.setAttribute("users", DataBase.findAll());
+        UserDao userDao = new UserDao();
+        try {
+            req.setAttribute("users", userDao.findAll());
+        } catch (SQLException e) {
+            //
+        }
+
         return "/user/list.jsp";
     }
 }
