@@ -36,7 +36,20 @@ public class UserDao {
     }
 
     public void update(User user) throws SQLException {
-        UpdateJdbcTemplate jdbcTemplate = new UpdateJdbcTemplate();
+        UpdateJdbcTemplate jdbcTemplate = new UpdateJdbcTemplate() {
+
+            void setValuesForUpdate(User user, PreparedStatement pstmt)
+                    throws SQLException {
+                pstmt.setString(4, user.getUserId());
+                pstmt.setString(1, user.getPassword());
+                pstmt.setString(2, user.getName());
+                pstmt.setString(3, user.getEmail());
+            }
+
+            String createQueryForUpdate() {
+                return "UPDATE USERS SET password=?, name=?, email=? WHERE userid=?";
+            }
+        };
         jdbcTemplate.update(user, this);
     }
 
