@@ -64,4 +64,15 @@ public class AnswerDao {
 
         return jdbcTemplate.query(sql, rm, questionId);
     }
+
+    /**
+     * JdbcTemplate를 활용한 delete
+     * AnswerDao가 JdbcTemplate.update를 활용하여 delete 기능 구현에 주목
+     * @param answerId
+     */
+    public void delete(Long answerId) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        String sql = "DELETE FROM ANSWERS WHERE answerId = ?";
+        jdbcTemplate.update(sql, answerId);
+    }
 }
