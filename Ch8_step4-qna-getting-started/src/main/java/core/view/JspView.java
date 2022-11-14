@@ -3,6 +3,7 @@ package core.view;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 public class JspView implements View {
     public static final String DEFAULT_REDIRECT_PREFIX = "redirect:";
@@ -18,7 +19,7 @@ public class JspView implements View {
 
 
     @Override
-    public void render(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public void render(Map<String, ?> model, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         if (viewName.startsWith(DEFAULT_REDIRECT_PREFIX)) {
             resp.sendRedirect(viewName.substring(DEFAULT_REDIRECT_PREFIX.length()));
             return;

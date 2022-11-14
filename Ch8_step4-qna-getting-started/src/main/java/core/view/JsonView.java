@@ -16,7 +16,7 @@ public class JsonView implements View {
     public static final Logger log = LoggerFactory.getLogger(JsonView.class);
 
     @Override
-    public void render(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public void render(Map<String, ?> model, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         resp.setContentType("application/json;charset=UTF-8");
         PrintWriter out = resp.getWriter();

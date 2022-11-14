@@ -1,8 +1,10 @@
 package next.controller.qna;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import core.mvc.AbstractController;
 import core.mvc.Controller;
 import core.view.JsonView;
+import core.view.ModelAndView;
 import core.view.View;
 import next.dao.AnswerDao;
 import next.model.Result;
@@ -13,13 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
-public class DeleteAnswerController implements Controller {
+public class DeleteAnswerController extends AbstractController {
 
     public static final Logger log  = LoggerFactory.getLogger(DeleteAnswerController.class);
 
 
     @Override
-    public View execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public ModelAndView execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         Long questionId = Long.parseLong(req.getParameter("answerId"));
 
         AnswerDao answerDao = new AnswerDao();
@@ -32,6 +34,6 @@ public class DeleteAnswerController implements Controller {
         resp.setContentType("application/json;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         out.print(mapper.writeValueAsString(Result.ok()));*/
-        return new JsonView();
+        return jsonView().addObject("status", Result.ok());
     }
 }
